@@ -24,22 +24,32 @@
       </div>
     </div>
     
+    <div class="text-center mb-8">
+      <button @click="openNewTicketModal" class="bg-red-500 hover:bg-blue-600 text-white font-bold py-4 px-8 rounded transition duration-300 ease-in-out">
+        Crear Nuevo Ticket
+      </button>
+    </div>
+    
     <div class="text-center">
       <h2 class="text-2xl font-semibold mb-4">¿Necesitas ayuda?</h2>
       <p class="mb-4">Nuestro equipo de soporte está aquí para ayudarte.</p>
-      <RouterLink to="/contact" class="inline-block bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
+      <RouterLink :to="{ name: 'soporte' }" class="inline-block bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
         Contactar Soporte
       </RouterLink>
     </div>
+
+    <NewTicketModal ref="newTicketModal" />
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import { RouterLink } from 'vue-router'
+import NewTicketModal from './NewTicketModal.vue'
 
 const store = useStore()
+const newTicketModal = ref(null)
 
 const ticketStats = computed(() => {
   const tasks = store.state.tasks
@@ -50,4 +60,8 @@ const ticketStats = computed(() => {
     { label: 'Alta Prioridad', value: tasks.filter(t => t.priority === 'alta').length, color: 'text-red-500' }
   ]
 })
+
+const openNewTicketModal = () => {
+  newTicketModal.value.openModal()
+}
 </script>

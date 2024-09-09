@@ -3,6 +3,7 @@
   import Footer from '/src/components/Footer.vue'
   import Header from '/src/components/Header.vue'
 </script>
+
 <template>
   <div id="app">
     <Header></Header>
