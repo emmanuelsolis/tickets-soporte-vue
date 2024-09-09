@@ -1,7 +1,10 @@
-<script setup>
-</script>
-
 <template>
-  <main>
-  </main>
+  <div>
+    <Main/>
+  </div>
 </template>
+
+<script setup>
+import Main from '/src/components/Main.vue'
+
+</script>
