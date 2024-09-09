@@ -12,31 +12,38 @@ export const useCounterStore = defineStore('counter', () => {
   return { count, doubleCount, increment }
 })
 
-export default createStore ({
+
+export default createStore({
   state: {
     tasks: []
-  }, 
+  },
   mutations: {
-    addTask(state, task) {
-      state.task.push({...task, id: Date.now()})
+    ADD_TASK(state, task) {
+      state.tasks.push(task)
     },
-    updateTask(state, { index, task }) {
-      state.task[index] = { ...state.task[index], ...task }
-    }, 
-    deleteTask(state, index) {
-      state.tasks.splice(index, 1)
-    }, 
-    updateTaskStatus(state, { taskId, newStatus }) {
-      const task = state.tasks.find( t => t.id === taskId)
-      if(task) {
-        task.status = newStatus
+    UPDATE_TASK(state, updatedTask) {
+      const index = state.tasks.findIndex(task => task.id === updatedTask.id)
+      if (index !== -1) {
+        state.tasks.splice(index, 1, updatedTask)
       }
+    },
+    DELETE_TASK(state, taskId) {
+      state.tasks = state.tasks.filter(task => task.id !== taskId)
     }
   },
   actions: {
-    //Acciones
-  }, 
+    addTask({ commit }, task) {
+      const newTask = { ...task, id: Date.now() }
+      commit('ADD_TASK', newTask)
+    },
+    updateTask({ commit }, task) {
+      commit('UPDATE_TASK', task)
+    },
+    deleteTask({ commit }, taskId) {
+      commit('DELETE_TASK', taskId)
+    }
+  },
   getters: {
-    //getters
+    allTasks: (state) => state.tasks
   }
 })

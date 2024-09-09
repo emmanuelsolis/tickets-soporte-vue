@@ -3,7 +3,7 @@
     <h1 class="text-3xl font-bold mb-8">Lista de Tickets de Soporte</h1>
     
     <div class="mb-4">
-      <button @click="openNewTicketModal" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+      <button @click="openNewTicketModal()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
         Crear Nuevo Ticket
       </button>
     </div>
@@ -57,8 +57,10 @@ const searchTerm = ref('')
 const filterPriority = ref('')
 const sortBy = ref('title')
 
+const allTasks = computed(() => store.state.tasks)
+
 const filteredAndSortedTasks = computed(() => {
-  let result = store.state.tasks
+  let result = allTasks.value
 
   if (searchTerm.value) {
     result = result.filter(task => 
@@ -92,13 +94,12 @@ const priorityClass = (priority) => {
   }
 }
 
-const openNewTicketModal = () => {
-  newTicketModal.value.openModal()
+const openNewTicketModal = (task = null) => {
+  newTicketModal.value.openModal(task)
 }
 
 const editTask = (task) => {
-  // Implementar lógica de edición
-  console.log('Editar tarea:', task)
+  openNewTicketModal(task)
 }
 
 const deleteTask = (taskId) => {
